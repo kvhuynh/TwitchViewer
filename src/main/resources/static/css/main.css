@@ -1,3 +1,9 @@
+
+body,html {
+  height:100%;
+  background-color: rgb(14,14,16);
+}
+
 .body {
     /* background-color: rgb(14,14,16); */
     width: 1080px;
@@ -6,11 +12,49 @@
     
 }
 
-body,html {
-    height:100%;
-    background-color: rgb(14,14,16);
-}
-
 #bootstrap-overrides :not(input) {
     color: white;
+}
+
+.card {
+    transition: .3s transform cubic-bezier(.155,1.105,0.295,1.12);
+    /* cubic-bezier(.155,1.105,.295,1.12) */
+    
+}
+
+.card-body {
+  background-color: rgb(14,14,16);
+  /* background-color: green; */
+}
+
+#card-border {
+  border: 1px solid purple;
+  border: none;
+}
+
+@media(max-width: 990px){
+  .card{
+    margin: 20px;
+  }
+} 
+
+.viewer-count {
+    position: absolute;
+    top: 11.3rem;
+    left: 5px;
+    background-color: rgb(14,14,17, .8);
+    padding: .1rem .5rem;
+    /* border-radius: .25rem; */
+    margin-top: .5rem;
+    color: white;
+    transition: .3s transform cubic-bezier(.155,1.105,0.295,1.12);
+}
+
+.header {
+  transition: .3s transform cubic-bezier(.155,1.105,0.295,1.12);
+}
+
+.header:hover {
+  transform: translateZ(0) scale(1.1);
+
 }

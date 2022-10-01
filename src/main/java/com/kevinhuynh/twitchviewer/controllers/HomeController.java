@@ -24,7 +24,6 @@ public class HomeController {
         JSONObject recieveChannels  = apiService.getPopularChannels();
         ArrayList<Object> popularChannels = apiService.parsePopularChannels(recieveChannels);
         model.addAttribute("popularChannels", popularChannels);
-
         return "index.jsp";
     }
 }

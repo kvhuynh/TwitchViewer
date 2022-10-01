@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="h" %>
 <!-- For form submission and validations -->
@@ -8,7 +8,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="ISO-8859-1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
     
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<script type="text/javascript" src="/js/app.js"></script>
@@ -19,6 +20,7 @@
 	<!-- For any Bootstrap that uses JS or jQuery-->
 	<script src="/webjars/jquery/jquery.min.js"></script>
 	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     
 	<title>Insert title here</title>
@@ -36,7 +38,6 @@
             </div>
         </div> -->
 
-        
 
         <div class="d-flex align-items-center justify-content-center" style="height: 100vh">
             <div class="container ">
@@ -50,6 +51,12 @@
                 </div>
             </div>
         </div>
+
+        <h1 class="text-light">2022 월드 챔피언십</h1>
+        <h1 class="text-light">🟥24 HOUR SPECIAL STARTS NOW🟥EARNING MY RESPECT🟥CALLING ALL MAFIA🟥ITS SHOW TIME🟥</h1>
+        <h1><c:out value=""/></h1>
+
+
       
         <div>
             <canvas id="myChart"></canvas>
@@ -75,23 +82,30 @@
         allowfullscreen>
         </iframe> -->
 
+        <h1 class="text-light d-flex align-items-center justify-content-center">Top 100 Channels</h1>
 
 
           <div class="card-deck d-flex flex-wrap justify-content-center">
-            <c:forEach var="popularChannel" items="${popularChannels}">
+              <c:forEach var="popularChannel" items="${popularChannels}">
                 <c:set var="thumbnail_image" value ="${popularChannel.get('thumbnail_url')}"></c:set>
-            <div class="card m-3" style="width: 18rem;">
-                <a class="text-decoration-none text-dark" href="channels/${popularChannel.get('user_login')}">
-                    <img class="card-img-top" src="${thumbnail_image.replace('{width}', '1280').replace('{height}', '720')}" alt="stream thumbnail for '${popularChannel.get('user_name')}'">
-                    <div class="card-body">
-                        <h5 class="card-title"><c:out value="${popularChannel.get('user_name')}"/></h5>
-                        <p class="card-text text-truncate"><c:out value="${popularChannel.get('title')}"/></p>
-                        <p class="card-text"><c:out value="${popularChannel.get('game_name')}"/></p>
+              <div id="card-border" class="card m-3" style="width: 25rem; height: 21.5rem;">
+                  <a class="text-decoration-none text-dark" href="channels/${popularChannel.get('user_login')}">
+                    <div class="header">
+                      <img class="card-img-top" src="${thumbnail_image.replace('{width}', '1280').replace('{height}', '720')}" alt="stream thumbnail for '${popularChannel.get('user_name')}'">
+                      <p class="viewer-count card-text"><c:out value="${popularChannel.get('viewer_count')}"/> viewers</p>
                     </div>
-                </a>
+                      <div class="card-body p-1 text-light">
+                          <p></p>
+                          <h5 class="card-title"><c:out value="${popularChannel.get('user_name')}"/></h5>
+                          <p class="card-text text-truncate"><c:out value="${popularChannel.get('title')}"/></p>
+                          <p class="card-text"><c:out value="${popularChannel.get('game_name')}"/></p>
+                          <!-- <p class="viewer-count card-text"><c:out value="${popularChannel.get('viewer_count')}"/> viewers</p> -->
+                      </div>
+                  </a>
+              </div>
+              </c:forEach>
             </div>
-            </c:forEach>
-            </div>
+            <!-- <canvas id="myChart" width="400" height="400"></canvas>
             <script>
                 const labels = [
                   'January',
@@ -124,7 +138,7 @@
                   config
                 );
               </script>
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                -->
 </body>
   
 </html>

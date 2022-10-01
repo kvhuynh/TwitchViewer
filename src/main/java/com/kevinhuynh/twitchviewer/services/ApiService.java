@@ -49,7 +49,7 @@ public class ApiService {
 			InputStream inputStream = http.getInputStream();
 			BufferedReader in = new BufferedReader(
 				new InputStreamReader(
-					inputStream));
+					inputStream, "UTF-8")); // fixed utf-8 error here
 		
 			StringBuilder response = new StringBuilder();
 			String currentLine;

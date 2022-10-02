@@ -21,9 +21,12 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(@ModelAttribute("channel") Channel channel, Model model) throws IOException {
-        JSONObject recieveChannels  = apiService.getPopularChannels();
+        // JSONObject recieveChannels  = apiService.getPopularChannels();
+        // ArrayList<Object> popularChannels = apiService.parsePopularChannels(recieveChannels);
+        JSONObject recieveChannels = apiService.queryWrapper("getPopular" , "");
         ArrayList<Object> popularChannels = apiService.parsePopularChannels(recieveChannels);
         model.addAttribute("popularChannels", popularChannels);
+        model.addAttribute("channel", channel);
         return "index.jsp";
     }
 }

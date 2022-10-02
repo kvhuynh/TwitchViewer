@@ -37,6 +37,48 @@ public class ApiService {
 
     private ArrayList<Objects> currentFollowing = new ArrayList<Objects>();
 
+	public JSONObject queryWrapper(String operation, String queryData) throws IOException {
+		switch (operation) {
+			case "getId":
+				return getTwitchData(GET_USER_ID + queryData);
+
+			case "getPopular":
+				return getTwitchData(GET_CURRENT_POPULAR);
+		}
+
+		return null;
+	}
+
+
+	// broad class that takes in an api request and returns the response as a JSONObject
+	public JSONObject getTwitchData(String queryInformation) throws IOException {
+		try {
+			URL url = new URL(queryInformation);
+			HttpURLConnection http = (HttpURLConnection)url.openConnection();
+			http.setRequestProperty("Authorization", AUTHORIZATION_CODE);
+			http.setRequestProperty("Client-Id", CLIENT_ID);
+			
+			InputStream inputStream = http.getInputStream();
+			BufferedReader in = new BufferedReader(
+				new InputStreamReader(
+					inputStream, "UTF-8")); // fixed utf-8 error here
+		
+			StringBuilder response = new StringBuilder();
+			String currentLine;
+		
+			while ((currentLine = in.readLine()) != null) 
+				response.append(currentLine);
+		
+			in.close();
+
+			JSONObject obj = new JSONObject(response.toString());
+
+			return obj;
+		} catch (MalformedURLException error) {
+			System.out.println(error);
+		}
+		return null;
+	}
 
     public JSONObject getPopularChannels() throws IOException{
 
@@ -91,7 +133,7 @@ public class ApiService {
 			InputStream inputStream = http.getInputStream();
 			BufferedReader in = new BufferedReader(
 				new InputStreamReader(
-					inputStream));
+					inputStream, "UTF-8")); // fixed utf-8 error here
 		
 			StringBuilder response = new StringBuilder();
 			String currentLine;
@@ -122,7 +164,7 @@ public class ApiService {
 			InputStream inputStream = http.getInputStream();
 			BufferedReader in = new BufferedReader(
 				new InputStreamReader(
-					inputStream));
+					inputStream, "UTF-8")); // fixed utf-8 error here
 		
 			StringBuilder response = new StringBuilder();
 			String currentLine;
@@ -156,7 +198,7 @@ public class ApiService {
 			InputStream inputStream = http.getInputStream();
 			BufferedReader in = new BufferedReader(
 				new InputStreamReader(
-					inputStream));
+					inputStream, "UTF-8")); // fixed utf-8 error here
 		
 			StringBuilder response = new StringBuilder();
 			String currentLine;
@@ -180,66 +222,66 @@ public class ApiService {
     }
 
 
-    public void parseFollowers(JSONObject following) throws IOException {
+    // public void parseFollowers(JSONObject following) throws IOException {
 
-        JSONObject paginationCursor;
-        String pagination = "";
-        JSONArray channelsArray;
+    //     JSONObject paginationCursor;
+    //     String pagination = "";
+    //     JSONArray channelsArray;
 
-        channelsArray = allChannels(following);
-        // JSONObject channelObjects = (JSONObject) channelsArray.get(0);
+    //     channelsArray = allChannels(following);
+    //     // JSONObject channelObjects = (JSONObject) channelsArray.get(0);
 
-        double loopCondition = Math.ceil((int) following.get("total") / 100.00);
+    //     double loopCondition = Math.ceil((int) following.get("total") / 100.00);
 
-        for (int i = 0; i < loopCondition; i++) {
-            paginationCursor = (JSONObject) following.get("pagination");
-            if (paginationCursor.has("cursor") != false ) {
-                pagination = (String) paginationCursor.get("cursor");
-            }
+    //     for (int i = 0; i < loopCondition; i++) {
+    //         paginationCursor = (JSONObject) following.get("pagination");
+    //         if (paginationCursor.has("cursor") != false ) {
+    //             pagination = (String) paginationCursor.get("cursor");
+    //         }
 
-            for (Object obj : channelsArray) {
-                JSONObject channel = (JSONObject) obj;
-                // createChannel();
-                JSONObject channelData = getChannelData((String) channel.get("to_login"));
-                System.out.println(channelData);
-                // System.out.println(channel.get("to_login")); // i should be creating the following channels here
+    //         for (Object obj : channelsArray) {
+    //             JSONObject channel = (JSONObject) obj;
+    //             // createChannel();
+    //             JSONObject channelData = getChannelData((String) channel.get("to_login"));
+    //             System.out.println(channelData);
+    //             // System.out.println(channel.get("to_login")); // i should be creating the following channels here
 
-            }
+    //         }
 
-            following = getFollows(tempTwitchId, pagination);
-            channelsArray = allChannels(following);
+    //         following = getFollows(tempTwitchId, pagination);
+    //         channelsArray = allChannels(following);
 
-        }
-    }
+    //     }
+    // }
 
-    public JSONArray allChannels(JSONObject followingObject) {
-        JSONArray channelsArray = (JSONArray) followingObject.get("data");
-        return channelsArray;
-    }
+    // public JSONArray allChannels(JSONObject followingObject) {
+    //     JSONArray channelsArray = (JSONArray) followingObject.get("data");
+    //     return channelsArray;
+    // }
 
-    public Channel createChannel(
-        String twitchId, String login, String displayName, String type, 
-        String broadcasterType, String description, String profileImageUrl, 
-        String offlineImageUrl, Integer viewCount, Boolean isFavorited, 
-        String dateFollowed, String accountCreatedAt
-        ) {
+    // public Channel createChannel(
+    //     String twitchId, String login, String displayName, String type, 
+    //     String broadcasterType, String description, String profileImageUrl, 
+    //     String offlineImageUrl, Integer viewCount, Boolean isFavorited, 
+    //     String dateFollowed, String accountCreatedAt
+    //     ) {
 
-        Channel oneChannel = new Channel();
+    //     Channel oneChannel = new Channel();
         
-        oneChannel.setTwitchId(twitchId);
-        oneChannel.setDisplayName(displayName);
-        oneChannel.setType(broadcasterType);
-        oneChannel.setBroadcasterType(broadcasterType);
-        oneChannel.setDescription(description);
-        oneChannel.setProfileImageUrl(profileImageUrl);
-        oneChannel.setOfflineImageUrl(offlineImageUrl);
-        oneChannel.setViewCount(viewCount);
-        oneChannel.setIsFavorited(isFavorited);
-        oneChannel.setDateFollowed(dateFollowed);
-        oneChannel.setCreatedAccountAt(accountCreatedAt);
+    //     oneChannel.setTwitchId(twitchId);
+    //     oneChannel.setDisplayName(displayName);
+    //     oneChannel.setType(broadcasterType);
+    //     oneChannel.setBroadcasterType(broadcasterType);
+    //     oneChannel.setDescription(description);
+    //     oneChannel.setProfileImageUrl(profileImageUrl);
+    //     oneChannel.setOfflineImageUrl(offlineImageUrl);
+    //     oneChannel.setViewCount(viewCount);
+    //     oneChannel.setIsFavorited(isFavorited);
+    //     oneChannel.setDateFollowed(dateFollowed);
+    //     oneChannel.setCreatedAccountAt(accountCreatedAt);
 
 
-        return oneChannel;
-    }
+    //     return oneChannel;
+    // }
 
 }

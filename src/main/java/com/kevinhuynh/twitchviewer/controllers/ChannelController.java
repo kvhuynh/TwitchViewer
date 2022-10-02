@@ -2,9 +2,13 @@ package com.kevinhuynh.twitchviewer.controllers;
 
 import java.io.IOException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,36 +32,44 @@ public class ChannelController {
     @Autowired
     private ApiService apiService;
 
-    // @GetMapping("/dashboard")
-    // public String dashboard(HttpSession session, Model model) throws IOException {
-
-    //     // populate fields with the users information
-    //     User currentUser = userService.getOne((Long) session.getAttribute("uuid"));
-    //     model.addAttribute("twitchName", currentUser.getTwitchUserName());
-    //     model.addAttribute("twitchId", currentUser.getTwitchId());
-
-    //     // JSONObject following = apiService.getFollows("57119302", "");
-    //     // apiService.parseFollowers(following);
-    //     JSONObject channelEmotes = apiService.getEmotes("94753024");
-    //     apiService.parseEmotes(channelEmotes);
-        
-
-
-    //     // whenver the user logs in the app should update their follow llist
-    //     return "dashboard.jsp";
-    // }
-
     @GetMapping("/{channelName}")
-    public String viewChannel(@PathVariable("channelName") String channelName) {
-        System.out.println(channelName);
+    public String viewChannel(@PathVariable("channelName") String channelName, Channel channel, Model model) throws IOException {
+
+        // JSONObject channelDataObject = apiService.getChannelData(channelName);
+        // JSONArray channelDataArray = (JSONArray) channelDataObject.get("data");
+        // try {
+        //     JSONObject channelData = (JSONObject) channelDataArray.get(0);
+            
+        // model.addAttribute("channelData", channelData);
+        // // model.addAttribute("channel", channel)
+
+        // return "showOne.jsp";
+        // } catch (JSONException error) {
+        //     return "error.jsp";
+        // }
+
+        JSONObject recieveChannelObject = apiService.queryWrapper("getId", channelName);
+        JSONArray channelDataArray = (JSONArray) recieveChannelObject.get("data");
+        try {
+            JSONObject channelData = (JSONObject) channelDataArray.get(0);
+            
+        model.addAttribute("channelData", channelData);
+        // model.addAttribute("channel", channel)
+
         return "showOne.jsp";
+        } catch (JSONException error) {
+            return "error.jsp";
+        }
+
     }
 
 
     @PostMapping("/search/submit")
-    public String getChannelInfo(@ModelAttribute("channel") Channel channel, Model model) throws IOException {
+    public String getChannelInfo(@ModelAttribute("channel") Channel channel, BindingResult result, Model model) throws IOException {
+        System.out.println(channel);
+        // apiService.getChannelData(channel.getDisplayName());
 
-        apiService.getChannelData("");
+        
         return "redirect:/channels/" + channel.getDisplayName();
     }
 

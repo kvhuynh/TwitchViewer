@@ -14,15 +14,36 @@
 	<!-- for bootstrap -->
 	<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
 	<!-- YOUR own local CSS -->
-	<link rel="stylesheet" href="/css/main.css"/>
+	<link rel="stylesheet" href="/css/show-one.css"/>
 	<!-- For any Bootstrap that uses JS or jQuery-->
 	<script src="/webjars/jquery/jquery.min.js"></script>
 	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<title>Insert title here</title>
 </head>
 	<body>
 		<h:navbar name="test" />
-		<h1>yo, <c:out value="${twitchName}"/> </h1>
-		<p>your twitch id is <c:out value="${twitchId}" /></p>
+		<h1>hidden</h1>
+		<div class="d-flex justify-content-center">
+			<div>
+				<iframe
+				src="https://player.twitch.tv/?channel=${channelData.get('login')}&parent=localhost&autoplay=true"
+				height="720"
+				width="1280"
+				allowfullscreen>
+				</iframe>
+				<div class="d-flex align-items-center">
+					<img class="profile-pic" src="${channelData.get('profile_image_url')}" alt="">
+					<div></div>
+					<h1 class="text-light"><c:out value="${channelData.get('display_name')}"/> </h1>
+				</div>
+			</div>
+			<iframe src="https://www.twitch.tv/embed/${channelData.get('login')}/chat?darkpopout&parent=localhost"
+			height="1000"
+			width="350">
+			</iframe>
+		</div>
+
+
 	</body>
 </html>

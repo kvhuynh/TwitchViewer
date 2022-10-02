@@ -16,11 +16,11 @@
 	<!-- for bootstrap -->
 	<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
 	<!-- YOUR own local CSS -->
-	<link rel="stylesheet" href="/css/main.css"/>
+	<link rel="stylesheet" href="/css/index.css"/>
 	<!-- For any Bootstrap that uses JS or jQuery-->
 	<script src="/webjars/jquery/jquery.min.js"></script>
 	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     
 	<title>Insert title here</title>
@@ -63,24 +63,7 @@
           </div>
 
 
-          <h1 class="text-light d-flex align-items-center justify-content-center">Favorites</h1>
-    
-        <!-- <iframe src="https://www.twitch.tv/embed/extraemily/chat?parent=localhost"
-            height="1280"
-            width="720">
-        </iframe> -->
-          <!-- <iframe
-        src="https://player.twitch.tv/?channel=extraemily&parent=localhost&autoplay=false"
-        height="720"
-        width="1280"
-        allowfullscreen> -->
-                        <!-- <p style="color:white" ><c:out value="${popularChannel.get('user_name')}" /></p> -->
-                      <!-- <iframe
-        src="https://player.twitch.tv/?channel=${popularChannel.get('user_login')}&parent=localhost&autoplay=false"
-        height="720"
-        width="1280"
-        allowfullscreen>
-        </iframe> -->
+        <h1 class="text-light d-flex align-items-center justify-content-center">Favorites</h1>
 
         <h1 class="text-light d-flex align-items-center justify-content-center">Top 100 Channels</h1>
 

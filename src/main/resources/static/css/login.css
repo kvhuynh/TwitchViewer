@@ -1,0 +1,30 @@
+.h-custom {
+    height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+    .h-custom {
+        height: 100%;
+    }
+}
+
+* {
+    color: white;
+}
+
+body,html {
+    height:100%;
+    background-color: rgb(14,14,16);
+  }
+  
+/* .body {
+    background-color: rgb(14,14,16);
+    width: 1080px;
+    margin: 0px auto;
+    padding: 0px auto;
+    
+    
+} */
+
+#bootstrap-overrides :not(input) {
+    color: white;
+}

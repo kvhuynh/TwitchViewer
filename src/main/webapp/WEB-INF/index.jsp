@@ -10,7 +10,6 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<script type="text/javascript" src="/js/app.js"></script>
 	<!-- for bootstrap -->
@@ -27,18 +26,6 @@
 </head>
 <body>
         <h:navbar name="test" />
-        <!-- <div class="container ">
-            <div class="row h-100">
-                <form:form action="/channels" modelAttribute="channel" method="POST" class="col-12">
-                    <div class="form-group">
-                    <form:label path="displayName" class="text-light" for="formGroupExampleInput">Search Streamers:</form:label>
-                    <form:input path="displayName" type="text" class="form-control" id="formGroupExampleInput" placeholder="Riot Games"></form:input>
-                    </div>
-                </form:form>   
-            </div>
-        </div> -->
-
-
         <div class="d-flex align-items-center justify-content-center" style="height: 100vh">
             <div class="container ">
                 <div class="row h-100">
@@ -51,23 +38,27 @@
                 </div>
             </div>
         </div>
+      
 
-        <h1 class="text-light">2022 월드 챔피언십</h1>
-        <h1 class="text-light">🟥24 HOUR SPECIAL STARTS NOW🟥EARNING MY RESPECT🟥CALLING ALL MAFIA🟥ITS SHOW TIME🟥</h1>
+            <div>
+              <a href="#top-channels" class="btn btn-block btn-light" style="margin-top: 5px;">find top</a>
+            </div>
+
+
         <h1><c:out value=""/></h1>
 
-
-      
         <div>
-            <canvas id="myChart"></canvas>
-          </div>
-
+          <canvas id="myChart"></canvas>
+        </div>
 
         <h1 class="text-light d-flex align-items-center justify-content-center">Favorites</h1>
+          <% if (session.getAttribute("uuid") == null) { %>
+            <a class="nav-link" href="/login-register">Sign in to see your live favorites</a>
+          <% } else { %>
+            <p>DISPLAY FAVORITES HERE</p>
+          <% } %>
 
-        <h1 class="text-light d-flex align-items-center justify-content-center">Top 100 Channels</h1>
-
-
+        <h1 id="top-channels" class="text-light d-flex align-items-center justify-content-center">Top 100 Live Channels</h1>
           <div class="card-deck d-flex flex-wrap justify-content-center">
               <c:forEach var="popularChannel" items="${popularChannels}">
                 <c:set var="thumbnail_image" value ="${popularChannel.get('thumbnail_url')}"></c:set>
@@ -82,7 +73,6 @@
                           <h5 class="card-title"><c:out value="${popularChannel.get('user_name')}"/></h5>
                           <p class="card-text text-truncate"><c:out value="${popularChannel.get('title')}"/></p>
                           <p class="card-text"><c:out value="${popularChannel.get('game_name')}"/></p>
-                          <!-- <p class="viewer-count card-text"><c:out value="${popularChannel.get('viewer_count')}"/> viewers</p> -->
                       </div>
                   </a>
               </div>
@@ -122,6 +112,18 @@
                 );
               </script>
                 -->
+                <script>
+                  window.onload = function() {
+                    if (window.jQuery) {  
+                        // jQuery is loaded  
+                        alert("Yeah!");
+                    } else {
+                        // jQuery is not loaded
+                        alert("Doesn't Work");
+                    }
+                }
+                </script>
+                <!-- <script src=https://code.jquery.com/jquery-3.6.0.min.js></script> -->
 </body>
   
 </html>

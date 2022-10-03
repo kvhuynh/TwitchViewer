@@ -44,6 +44,9 @@ public class ApiService {
 
 			case "getPopular":
 				return getTwitchData(GET_CURRENT_POPULAR);
+
+			case "getEmotes":
+				return getTwitchData(GET_CHANNEL_EMOTES_BY_ID + queryData);
 		}
 
 		return null;
@@ -80,35 +83,6 @@ public class ApiService {
 		return null;
 	}
 
-    public JSONObject getPopularChannels() throws IOException{
-
-		try {
-			URL url = new URL(GET_CURRENT_POPULAR);
-			HttpURLConnection http = (HttpURLConnection)url.openConnection();
-			http.setRequestProperty("Authorization", AUTHORIZATION_CODE);
-			http.setRequestProperty("Client-Id", CLIENT_ID);
-			
-			InputStream inputStream = http.getInputStream();
-			BufferedReader in = new BufferedReader(
-				new InputStreamReader(
-					inputStream, "UTF-8")); // fixed utf-8 error here
-		
-			StringBuilder response = new StringBuilder();
-			String currentLine;
-		
-			while ((currentLine = in.readLine()) != null) 
-				response.append(currentLine);
-		
-			in.close();
-
-			JSONObject obj = new JSONObject(response.toString());
-
-			return obj;
-		} catch (MalformedURLException error) {
-			System.out.println(error);
-		}
-		return null;
-    }
 
     public ArrayList<Object> parsePopularChannels(JSONObject popularChannels) {
         ArrayList<Object> listData = new ArrayList<Object>();
@@ -120,37 +94,6 @@ public class ApiService {
         }
         return listData;
     }
-
-    public JSONObject getChannelData(String userName) throws IOException {
-		String uri = GET_USER_ID + userName;
-
-		try {
-			URL url = new URL(uri);
-			HttpURLConnection http = (HttpURLConnection)url.openConnection();
-			http.setRequestProperty("Authorization", AUTHORIZATION_CODE);
-			http.setRequestProperty("Client-Id", CLIENT_ID);
-			
-			InputStream inputStream = http.getInputStream();
-			BufferedReader in = new BufferedReader(
-				new InputStreamReader(
-					inputStream, "UTF-8")); // fixed utf-8 error here
-		
-			StringBuilder response = new StringBuilder();
-			String currentLine;
-		
-			while ((currentLine = in.readLine()) != null) 
-				response.append(currentLine);
-		
-			in.close();
-
-			JSONObject obj = new JSONObject(response.toString());
-
-			return obj;
-		} catch (MalformedURLException error) {
-			System.out.println(error);
-		}
-		return null;
-	}
 
     public JSONObject getEmotes(String twitchId) throws IOException {
         String uri = GET_CHANNEL_EMOTES_BY_ID + twitchId;

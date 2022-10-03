@@ -35,19 +35,6 @@ public class ChannelController {
     @GetMapping("/{channelName}")
     public String viewChannel(@PathVariable("channelName") String channelName, Channel channel, Model model) throws IOException {
 
-        // JSONObject channelDataObject = apiService.getChannelData(channelName);
-        // JSONArray channelDataArray = (JSONArray) channelDataObject.get("data");
-        // try {
-        //     JSONObject channelData = (JSONObject) channelDataArray.get(0);
-            
-        // model.addAttribute("channelData", channelData);
-        // // model.addAttribute("channel", channel)
-
-        // return "showOne.jsp";
-        // } catch (JSONException error) {
-        //     return "error.jsp";
-        // }
-
         JSONObject recieveChannelObject = apiService.queryWrapper("getId", channelName);
         JSONArray channelDataArray = (JSONArray) recieveChannelObject.get("data");
         try {
@@ -73,5 +60,9 @@ public class ChannelController {
         return "redirect:/channels/" + channel.getDisplayName();
     }
 
+    @GetMapping("/{channelName}/favorite")
+    public String favoriteChannel(@PathVariable("channelName") String channelName, @ModelAttribute("channel") Channel channel, BindingResult result, Model model) {
+        return "redirect:/channels/" + channelName;
+    }
 }
 

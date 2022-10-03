@@ -23,7 +23,6 @@
 </head>
 	<body>
 		<h:navbar name="test" />
-		<h1>hidden</h1>
 		<div class="d-flex justify-content-center">
 			<div>
 				<iframe
@@ -44,6 +43,6 @@
 			</iframe>
 		</div>
 
-
+	<script type="text/javascript" src="../../resources/static/js/favorite.js"></script>
 	</body>
 </html>

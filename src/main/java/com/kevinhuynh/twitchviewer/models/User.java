@@ -57,7 +57,8 @@ public class User {
     private String confirm;
 	
 	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-	private List<Channel> channels;
+	private List<Channel> favoriteChannels;
+
 	
     @PrePersist
 	protected void onCreate() {
@@ -96,11 +97,11 @@ public class User {
 	}
 
 	public List<Channel> getChannels() {
-		return channels;
+		return favoriteChannels;
 	}
 
-	public void setChannels(List<Channel> channels) {
-		this.channels = channels;
+	public void setChannels(List<Channel> favoriteChannels) {
+		this.favoriteChannels = favoriteChannels;
 	}
 
 	public String getTwitchUserName() {

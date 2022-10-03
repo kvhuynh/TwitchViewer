@@ -1,3 +1,4 @@
+c<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ attribute name="name" required="true" %>
     <nav id="bootstrap-overrides" class="navbar navbar-expand fixed-top navbar-light bg-dark text-light">
@@ -22,14 +23,13 @@
               <a class="nav-link" href="/about">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Login</a>
-            </li>
-      
+              <% if (session.getAttribute("uuid") == null) { %>
+                <a class="nav-link" href="/login-register">Login</a>
+              <% } else {%>
+                <a class="nav-link" href="/logout">Logout</a>
+              <% } %>
+            </li> 
             </ul>
         </div>
-          <!-- <form class="d-flex form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form> -->
         </div>
     </nav>

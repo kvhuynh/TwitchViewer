@@ -20,8 +20,7 @@
 	<script src="/webjars/jquery/jquery.min.js"></script>
 	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    
+  <script type="text/javascript" src="<c:url value='/js/favorite.js'/>"></script>
 	<title>Insert title here</title>
 </head>
 <body>
@@ -39,7 +38,7 @@
             </div>
         </div>
       
-
+        <button class="btn btn-light" id="toggle-favorites">click me</button>
             <div>
               <a href="#top-channels" class="btn btn-block btn-light" style="margin-top: 5px;">find top</a>
             </div>
@@ -113,17 +112,13 @@
               </script>
                 -->
                 <script>
-                  window.onload = function() {
-                    if (window.jQuery) {  
-                        // jQuery is loaded  
-                        alert("Yeah!");
-                    } else {
-                        // jQuery is not loaded
-                        alert("Doesn't Work");
-                    }
-                }
+                  $(document).ready(function() {
+                    $("#toggle-favorites").click(function() {
+                        alert("handler for .click() called.")
+                    });
+                });
+                
                 </script>
-                <!-- <script src=https://code.jquery.com/jquery-3.6.0.min.js></script> -->
 </body>
   
 </html>

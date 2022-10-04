@@ -16,11 +16,15 @@
 	<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
 	<!-- YOUR own local CSS -->
 	<link rel="stylesheet" href="/css/index.css"/>
+  <link rel="stylesheet" href="/css/sidebar.css"/>
 	<!-- For any Bootstrap that uses JS or jQuery-->
 	<script src="/webjars/jquery/jquery.min.js"></script>
 	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="text/javascript" src="<c:url value='/js/favorite.js'/>"></script>
+  <script type="text/javascript" src="<c:url value='/js/sidebar.js'/>"></script>
+
+  
 	<title>Insert title here</title>
 </head>
 <body>
@@ -32,17 +36,27 @@
                         <div class="form-group">
                             <form:label path="displayName" class="text-light" for="formGroupExampleInput">Search Streamers:</form:label>
                             <form:input path="displayName" type="text" class="form-control" placeholder="Riot Games"></form:input>
+                            <!-- <div class="text-light">${sessionScope.invalidChannel}</div> -->
+                            <% if (session.getAttribute("invalidChannel") != null) { %>
+                              <div class="errors text-light">
+                                <div>${sessionScope.invalidChannel}</div>
+                                <p>Tips for searching: </p>
+                                <ul>
+                                  <li>Remove spaces from name</li>
+                                  <li>Check your spelling</li>
+                                  <li>Only english characters (for now)</li>
+                                </ul>
+                              </div>
+                            <% } %>
                         </div>
                     </form:form>   
                 </div>
             </div>
         </div>
-      
-        <button class="btn btn-light" id="toggle-favorites">click me</button>
-            <div>
-              <a href="#top-channels" class="btn btn-block btn-light" style="margin-top: 5px;">find top</a>
-            </div>
-
+        
+        <div>
+          <a href="#top-channels" class="btn btn-block btn-light" style="margin-top: 5px;">find top</a>
+        </div>
 
         <h1><c:out value=""/></h1>
 
@@ -111,14 +125,6 @@
                 );
               </script>
                 -->
-                <script>
-                  $(document).ready(function() {
-                    $("#toggle-favorites").click(function() {
-                        alert("handler for .click() called.")
-                    });
-                });
-                
-                </script>
 </body>
   
 </html>

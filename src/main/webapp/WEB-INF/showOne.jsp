@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="h" %>
 <!-- For form submission and validations -->
@@ -34,7 +33,7 @@
 				<div class="d-flex align-items-center">
 					<img class="profile-pic" src="${channelData.get('profile_image_url')}" alt="">
 					<div></div>
-					<h1 class="text-light"><c:out value="${channelData.get('display_name')}"/> </h1>
+					<h1 class="text-light"><c:out value="${channelData.get('display_name')}"/></h1>
 				</div>
 			</div>
 			<iframe src="https://www.twitch.tv/embed/${channelData.get('login')}/chat?darkpopout&parent=localhost"
@@ -42,7 +41,6 @@
 			width="350">
 			</iframe>
 		</div>
-
 	<script type="text/javascript" src="../../resources/static/js/favorite.js"></script>
 	</body>
 </html>

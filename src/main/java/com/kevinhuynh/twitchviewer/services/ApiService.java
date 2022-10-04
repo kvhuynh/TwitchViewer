@@ -54,14 +54,16 @@ public class ApiService {
 
 
 	// broad class that takes in an api request and returns the response as a JSONObject
-	public JSONObject getTwitchData(String queryInformation) throws IOException {
+	public JSONObject getTwitchData(String queryInformation) {
 		try {
+            
 			URL url = new URL(queryInformation);
 			HttpURLConnection http = (HttpURLConnection)url.openConnection();
 			http.setRequestProperty("Authorization", AUTHORIZATION_CODE);
 			http.setRequestProperty("Client-Id", CLIENT_ID);
-			
+
 			InputStream inputStream = http.getInputStream();
+
 			BufferedReader in = new BufferedReader(
 				new InputStreamReader(
 					inputStream, "UTF-8")); // fixed utf-8 error here
@@ -77,9 +79,11 @@ public class ApiService {
 			JSONObject obj = new JSONObject(response.toString());
 
 			return obj;
-		} catch (MalformedURLException error) {
+		} catch (IOException error) {
 			System.out.println(error);
+            System.out.println("sdfsdfsdfsdfdsf");
 		}
+
 		return null;
 	}
 

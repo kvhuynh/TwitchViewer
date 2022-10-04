@@ -2,6 +2,8 @@ package com.kevinhuynh.twitchviewer.controllers;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,30 +35,32 @@ public class ChannelController {
     private ApiService apiService;
 
     @GetMapping("/{channelName}")
-    public String viewChannel(@PathVariable("channelName") String channelName, Channel channel, Model model) throws IOException {
+    public String viewChannel(@PathVariable("channelName") String channelName, Channel channel, Model model, HttpSession session) throws IOException {
 
-        JSONObject recieveChannelObject = apiService.queryWrapper("getId", channelName);
-        JSONArray channelDataArray = (JSONArray) recieveChannelObject.get("data");
         try {
+            if (session.getAttribute("uuid") != null) {
+                model.addAttribute("userName", userService.getOne((Long) session.getAttribute("uuid")));
+            }
+            JSONObject recieveChannelObject = apiService.queryWrapper("getId", channelName);
+            JSONArray channelDataArray = (JSONArray) recieveChannelObject.get("data");
             JSONObject channelData = (JSONObject) channelDataArray.get(0);
             
         model.addAttribute("channelData", channelData);
         // model.addAttribute("channel", channel)
 
         return "showOne.jsp";
-        } catch (JSONException error) {
-            return "error.jsp";
+        } catch (JSONException | NullPointerException error) {
+            session.setAttribute("invalidChannel", "Channel cannot be found.");
+            return "redirect:/";
         }
 
     }
 
 
     @PostMapping("/search/submit")
-    public String getChannelInfo(@ModelAttribute("channel") Channel channel, BindingResult result, Model model) throws IOException {
-        System.out.println(channel);
-        // apiService.getChannelData(channel.getDisplayName());
-
-        
+    public String getChannelInfo(@ModelAttribute("channel") Channel channel, BindingResult result, Model model, HttpSession session) throws IOException {
+  
+        session.removeAttribute("invalidChannel");
         return "redirect:/channels/" + channel.getDisplayName();
     }
 

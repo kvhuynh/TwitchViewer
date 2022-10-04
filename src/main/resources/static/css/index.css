@@ -58,3 +58,7 @@ body,html {
   transform: translateZ(0) scale(1.1);
 
 }
+
+.errors {
+  position: absolute;
+}

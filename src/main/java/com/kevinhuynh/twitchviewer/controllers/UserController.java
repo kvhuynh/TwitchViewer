@@ -51,23 +51,16 @@ public class UserController {
 	}
 	
 	@PostMapping("/register")
-	public String register(@Valid @ModelAttribute("newUser") User newUser, BindingResult result, Model model, HttpSession session) throws IOException {
-
-		// should be its own method / in an api file
-		// JSONObject userData = apiService.getChannelData(newUser.getTwitchUserName());
-
-        // JSONArray getChannel = (JSONArray) userData.get("data");
-        // JSONObject getData = (JSONObject) getChannel.get(0);
-        // String twitchId = (String) getData.get("id");
-		//
-
+	public String register(@Valid @ModelAttribute("newUser") User newUser, BindingResult result, Model model, HttpSession session, Channel channel) throws IOException {
 		
 		User user = userService.register(newUser, result);
 
+		System.out.println("i am here register");
 
 		if (result.hasErrors()) {
 			model.addAttribute("newLogin", new LoginUser());
-			return "index.jsp";
+			model.addAttribute("hasRegistrationError", "hasRegistrationError");
+			return "login-register.jsp";
 		}
 		session.setAttribute("uuid", user.getId());
 		
@@ -83,7 +76,7 @@ public class UserController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("newUser", new User());
-			return "index.jsp";
+			return "login-register.jsp";
 		}
 		
 		session.setAttribute("uuid", user.getId());

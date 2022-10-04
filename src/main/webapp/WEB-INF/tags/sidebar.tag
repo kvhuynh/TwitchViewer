@@ -7,12 +7,24 @@
 
 <div class="offcanvas offcanvas-start bg-dark text-light" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Favorite Channels</h5>
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <p>Try scrolling the rest of the page to see this option in action.</p>
-    <h3>Favorite Channels</h3>
+    <% if (session.getAttribute("uuid") == null) { %>
+      <a class="nav-link" href="/login-register">Login or create an account to view your favorite channels</a>
+    <% } else {%>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle bg-dark border-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <c:out value="${userName.twitchUserName}"/>
+        </button>
+        <div class="dropdown-menu bg-dark" aria-labelled by="dropdownMenuButton">
+          <a class="dropdown-item" href="/profile">Profile</a>
+          <a class="dropdown-item" href="/friends">Friends</a>
+          <a class="dropdown-item" href="/logout">Logout</a>
+        </div>
+      </div>
+    <% } %>
   </div>
 </div>
 

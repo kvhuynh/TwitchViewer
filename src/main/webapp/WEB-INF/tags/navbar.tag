@@ -3,7 +3,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="h" %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <%@ attribute name="name" required="true" %>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <nav id="bootstrap-overrides" class="navbar navbar-expand fixed-top navbar-light bg-dark text-light">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -31,9 +30,9 @@
                 <a class="nav-link" href="/login-register">Login</a>
               <% } else {%>
                 <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle bg-dark border-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a class="nav-link dropdown-toggle bg-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <c:out value="${userName.twitchUserName}"/>
-                  </button>
+                  </a>
                   <div class="dropdown-menu bg-dark" aria-labelled by="dropdownMenuButton">
                     <a class="dropdown-item" href="/profile">Profile</a>
                     <a class="dropdown-item" href="/friends">Friends</a>

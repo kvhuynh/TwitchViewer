@@ -21,9 +21,6 @@
 	<script src="/webjars/jquery/jquery.min.js"></script>
 	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="text/javascript" src="<c:url value='/js/favorite.js'/>"></script>
-  <script type="text/javascript" src="<c:url value='/js/sidebar.js'/>"></script>
-
   
 	<title>Insert title here</title>
 </head>

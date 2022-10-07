@@ -32,3 +32,4 @@ public class LoginUser {
 		this.password = password;
 	}
 }
+

@@ -45,8 +45,16 @@ public class ChannelController {
             JSONArray channelDataArray = (JSONArray) recieveChannelObject.get("data");
             JSONObject channelData = (JSONObject) channelDataArray.get(0);
             
-        model.addAttribute("channelData", channelData);
-        // model.addAttribute("channel", channel)
+            model.addAttribute("channelData", channelData);
+
+
+            Boolean createChannel = channelService.isInDatabase(channelData);
+            if (createChannel) {
+                Channel newChannel = channelService.extractChannelData(channelData);
+                channelService.createChannel(newChannel);
+            } else {
+                System.out.println("channel is already in database");
+            }
 
         return "showOne.jsp";
         } catch (JSONException | NullPointerException error) {
@@ -64,9 +72,17 @@ public class ChannelController {
         return "redirect:/channels/" + channel.getDisplayName();
     }
 
-    @GetMapping("/{channelName}/favorite")
-    public String favoriteChannel(@PathVariable("channelName") String channelName, @ModelAttribute("channel") Channel channel, BindingResult result, Model model) {
-        return "redirect:/channels/" + channelName;
+    @PostMapping("/{channelName}/favorite")
+    public void favoriteChannel(@PathVariable("channelName") String channelName, @ModelAttribute("channel") Channel channel, BindingResult result, Model model, HttpSession session) {
+        // return "redirect:/channels/" + channelName;
+        if (session.getAttribute("uuid") == null) {
+            System.out.println("error here");
+        } else {
+            Channel favoritedChannel = channelService.getOneByLogin(channelName);
+            favoritedChannel.setUser(userService.getOne((Long) session.getAttribute("uuid")));
+            channelService.createChannel(favoritedChannel);
+        }
     }
+
 }
 

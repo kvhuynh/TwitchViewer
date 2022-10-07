@@ -49,4 +49,9 @@ public class HomeController {
         session.removeAttribute("invalidChannel");
         return "about.jsp";
     }
+
+    @GetMapping("/profile")
+    public String profile(@ModelAttribute("channel") Channel channel, Model model, HttpSession session) {
+       return "profile.jsp"; 
+    }
 }

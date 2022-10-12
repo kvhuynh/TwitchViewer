@@ -20,11 +20,15 @@ public class ChannelService {
 	// 	return channelRepository.save(channel);
 	// }
 
-		public Channel createChannel(Channel channel) {
+	public Channel createChannel(Channel channel) {
 		return channelRepository.save(channel);
 	}
 
-	
+	// ========== Many to Many ==========
+	public void joinTable() {
+
+	}
+
 	// ========== Read ==========
 	public List<Channel> getAll() {
 		return channelRepository.findAll();
@@ -66,6 +70,10 @@ public class ChannelService {
 	public Boolean isInDatabase(JSONObject channel) {
 		Channel potentialChannel = channelRepository.findByLogin((String) channel.get("login"));
 		return potentialChannel == null;
+	}
+
+	public Channel addChannel(Channel channel) {
+		return channelRepository.save(channel);
 	}
 
 }

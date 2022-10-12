@@ -13,9 +13,14 @@ $('#submit').click(function() {
   let button = document.getElementById("submit");
   $.ajax({
     url: button.value,
-    type: "POST",
+    type: "GET",
     success: function(msg) {
-      alert("favorite success")
+      console.log("success");
+    },
+    complete: function() {
+      console.log("COMPLETED");
+      $("#favorites").load("sidebar.tag #favorites");
     }
   });
+
 });

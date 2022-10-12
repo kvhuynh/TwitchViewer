@@ -29,6 +29,7 @@ public class HomeController {
 
         if (session.getAttribute("uuid") != null) {
             model.addAttribute("userName", userService.getOne((Long) session.getAttribute("uuid")));
+            System.out.println("favorites: " + userService.getOne((Long) session.getAttribute("uuid")).getChannels());
             System.out.println(userService.getOne((Long) session.getAttribute("uuid")));
             // session.removeAttribute("invalidChannel");
         }

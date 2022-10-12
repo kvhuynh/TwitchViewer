@@ -1,6 +1,7 @@
 package com.kevinhuynh.twitchviewer.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,14 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,7 +28,8 @@ public class Channel {
 	private Long id;
 	
 	private String twitchId;
-	
+
+
 	private String login;
 	
 	private String displayName;
@@ -38,6 +38,7 @@ public class Channel {
 	
 	private String broadcasterType;
 
+	@Column(name = "description", columnDefinition = "LONGTEXT")
 	private String description;
 
 	private String profileImageUrl;
@@ -59,9 +60,18 @@ public class Channel {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date updatedAt;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_id")
-	private User user;
+	// @ManyToOne(fetch = FetchType.LAZY)
+	// @JoinColumn(name="user_id")
+	// private User user;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+		name = "users_channels",
+		joinColumns = @JoinColumn(name = "channel_id"),
+		inverseJoinColumns = @JoinColumn(name = "user_id")
+	)
+
+	private List<User> users;
 	
     @PrePersist
 	protected void onCreate() {
@@ -74,6 +84,14 @@ public class Channel {
 	}
 	
 	public Channel() {}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 
 	public Long getId() {
 		return id;
@@ -194,14 +212,4 @@ public class Channel {
 	public void setIsFavorited(Boolean isFavorited) {
 		this.isFavorited = isFavorited;
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-
 }

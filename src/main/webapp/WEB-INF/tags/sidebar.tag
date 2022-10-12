@@ -2,6 +2,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ attribute name="name" required="true" %>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="<c:url value='/js/sidebarRefresh.js'/>"></script>
+
+
 
 <button id="open-menu" class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i style="font-size:24px" class="fa">&#xf0c9;</i></button>
 
@@ -23,6 +26,11 @@
           <a class="dropdown-item" href="/friends">Friends</a>
           <a class="dropdown-item" href="/logout">Logout</a>
         </div>
+        <ul id="favorites">
+            <c:forEach var="favoriteChannel" items="${userName.getChannels()}">
+              <li><c:out value="${favoriteChannel.getDisplayName()}"/></li>
+            </c:forEach>
+        </ul>
       </div>
     <% } %>
   </div>

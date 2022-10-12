@@ -47,6 +47,5 @@
 			width="350">
 			</iframe>
 		</div>
-	<script type="text/javascript" src="../../resources/static/js/favorite.js"></script>
 	</body>
 </html>

@@ -72,14 +72,19 @@ public class ChannelController {
         return "redirect:/channels/" + channel.getDisplayName();
     }
 
-    @PostMapping("/{channelName}/favorite")
+    @GetMapping("/{channelName}/favorite")
     public void favoriteChannel(@PathVariable("channelName") String channelName, @ModelAttribute("channel") Channel channel, BindingResult result, Model model, HttpSession session) {
         // return "redirect:/channels/" + channelName;
         if (session.getAttribute("uuid") == null) {
             System.out.println("error here");
         } else {
             Channel favoritedChannel = channelService.getOneByLogin(channelName);
-            favoritedChannel.setUser(userService.getOne((Long) session.getAttribute("uuid")));
+            // favoritedChannel.setUsers(userService.getOne((Long) session.getAttribute("uuid")));
+            if (favoritedChannel.getUsers().contains(userService.getOne((Long) session.getAttribute("uuid")))) {
+                favoritedChannel.getUsers().remove(userService.getOne((Long) session.getAttribute("uuid")));
+            } else {
+                favoritedChannel.getUsers().add(userService.getOne((Long) session.getAttribute("uuid")));
+            }
             channelService.createChannel(favoritedChannel);
         }
     }

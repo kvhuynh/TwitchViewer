@@ -9,7 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -55,9 +57,16 @@ public class User {
     @NotEmpty(message="Please confirm password")
     private String confirm;
 	
-	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-	private List<Channel> channels;
+	// @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+	// private List<Channel> channels;
 
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+		name = "users_channels",
+		joinColumns = @JoinColumn(name = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "channel_id")
+	)
+	private List<Channel> channels;
 	
     @PrePersist
 	protected void onCreate() {

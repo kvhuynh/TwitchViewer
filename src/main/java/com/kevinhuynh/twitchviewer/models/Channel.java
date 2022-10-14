@@ -11,8 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -70,8 +70,11 @@ public class Channel {
 		joinColumns = @JoinColumn(name = "channel_id"),
 		inverseJoinColumns = @JoinColumn(name = "user_id")
 	)
-
 	private List<User> users;
+
+	@OneToMany(mappedBy="channel", fetch = FetchType.LAZY)
+	private List<Comment> comments;
+
 	
     @PrePersist
 	protected void onCreate() {
@@ -92,6 +95,15 @@ public class Channel {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
 
 	public Long getId() {
 		return id;

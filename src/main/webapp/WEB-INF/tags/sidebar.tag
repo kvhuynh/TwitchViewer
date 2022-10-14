@@ -1,8 +1,8 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<link rel="stylesheet" href="/css/sidebar.css"/>
 <%@ attribute name="name" required="true" %>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<script type="text/javascript" src="<c:url value='/js/sidebarRefresh.js'/>"></script>
 
 
 
@@ -17,22 +17,20 @@
     <% if (session.getAttribute("uuid") == null) { %>
       <a class="nav-link" href="/login-register">Login or create an account to view your favorite channels</a>
     <% } else {%>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle bg-dark border-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <c:out value="${userName.twitchUserName}"/>
-        </button>
-        <div class="dropdown-menu bg-dark" aria-labelled by="dropdownMenuButton">
-          <a class="dropdown-item" href="/profile">Profile</a>
-          <a class="dropdown-item" href="/friends">Friends</a>
-          <a class="dropdown-item" href="/logout">Logout</a>
-        </div>
-        <ul id="favorites">
-            <c:forEach var="favoriteChannel" items="${userName.getChannels()}">
+    <ul id="favorites" class="p-0">
+        <c:forEach var="favoriteChannel" items="${userName.getChannels()}">
+          <a href="/channels/${favoriteChannel.getLogin()}" class="text-decoration-none">
+            <div class="d-flex align-items-center mb-3 channel">
+              <img class="profile-pic-sidebar" src="${favoriteChannel.getProfileImageUrl()}" alt="" />
               <li><c:out value="${favoriteChannel.getDisplayName()}"/></li>
-            </c:forEach>
-        </ul>
-      </div>
+            </div>
+          </a>
+        </c:forEach>
+    </ul>
     <% } %>
   </div>
+  
 </div>
+
+
 

@@ -2,7 +2,6 @@ package com.kevinhuynh.twitchviewer.repositories;
 
 import java.util.List;
 
-import org.json.JSONObject;
 import org.springframework.data.repository.CrudRepository;
 
 import com.kevinhuynh.twitchviewer.models.Channel;

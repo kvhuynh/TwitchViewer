@@ -28,7 +28,7 @@ public class ApiService {
 	private final String GET_USER_ID = "https://api.twitch.tv/helix/users/?login=";
 	private final String GET_FOLLOWS_BY_ID = "https://api.twitch.tv/helix/users/follows?from_id=";
     private final String GET_CHANNEL_EMOTES_BY_ID = "https://api.twitch.tv/helix/chat/emotes?broadcaster_id=";
-    private final String GET_CURRENT_POPULAR = "https://api.twitch.tv/helix/streams?first=100";
+    private final String GET_CURRENT_POPULAR = "https://api.twitch.tv/helix/streams?";
 
     private String tempTwitchId = "";
 
@@ -42,8 +42,11 @@ public class ApiService {
 			case "getId":
 				return getTwitchData(GET_USER_ID + queryData);
 
+            case "getLiveData":
+                return getTwitchData(GET_CURRENT_POPULAR + queryData);
+
 			case "getPopular":
-				return getTwitchData(GET_CURRENT_POPULAR);
+				return getTwitchData(GET_CURRENT_POPULAR + "first=100");
 
 			case "getEmotes":
 				return getTwitchData(GET_CHANNEL_EMOTES_BY_ID + queryData);

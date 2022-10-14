@@ -20,9 +20,6 @@ public class ChannelService {
 	// 	return channelRepository.save(channel);
 	// }
 
-	public Channel createChannel(Channel channel) {
-		return channelRepository.save(channel);
-	}
 
 	// ========== Many to Many ==========
 	public void joinTable() {
@@ -72,7 +69,7 @@ public class ChannelService {
 		return potentialChannel == null;
 	}
 
-	public Channel addChannel(Channel channel) {
+	public Channel saveChannel(Channel channel) {
 		return channelRepository.save(channel);
 	}
 

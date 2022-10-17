@@ -58,7 +58,7 @@ public class ChannelController {
                 System.out.println(channelName);
                 System.out.println(channelService.getOneByLogin(channelName));
             }
-            model.addAttribute("comments", channelService.getOneByLogin(channelName).getComments());
+
             JSONObject recieveChannelObject = apiService.queryWrapper("getId", channelName);
             JSONArray channelDataArray = (JSONArray) recieveChannelObject.get("data");
             JSONObject channelData = (JSONObject) channelDataArray.get(0);
@@ -73,9 +73,13 @@ public class ChannelController {
                 System.out.println("channel added to database");
             } else {
                 System.out.println("channel is already in database");
+                // model.addAttribute("comments", channelService.getOneByLogin(channelName).getComments()); 
+                model.addAttribute("comments", channelService.getOneByLogin(channelName)); 
+
             }
 
         return "showOne.jsp";
+        
         } catch (JSONException | NullPointerException error) {
             System.out.println("why is there an error here");
             System.out.println(channelName);
@@ -109,15 +113,15 @@ public class ChannelController {
         }
     }
 
-    @PostMapping("/{channelName}/comment")
-    public String commentChannel(@PathVariable("channelName") String channelName, @ModelAttribute("comment") Comment comment, @ModelAttribute("channel") Channel channel, BindingResult result, Model model, HttpSession session) {
+    @GetMapping("/{channelName}/comment")
+    public void commentChannel(@PathVariable("channelName") String channelName, @ModelAttribute("comment") Comment comment, @ModelAttribute("channel") Channel channel, BindingResult result, Model model, HttpSession session) {
         if (session.getAttribute("uuid") == null) {
             System.out.println("comment error");
         } else {
             Comment completedComment = commentService.constructComment(comment, userService.getOne((Long) session.getAttribute("uuid")));
             completedComment.setChannel(channelService.getOneByLogin(channelName));
             commentService.saveComment(completedComment);
-
+            System.out.println("comment is: " + comment);
             Channel targetChannel = channelService.getOneByLogin(channelName); // get channel --> attach comment to the channel
             targetChannel.getComments().add(completedComment);
             channelService.saveChannel(targetChannel);
@@ -129,7 +133,6 @@ public class ChannelController {
             // attach comment to the channel
         }
 
-        return "redirect:/";
     }
 
 }

@@ -4,14 +4,11 @@ body,html {
     background-color: rgb(14,14,16);
   }
   
-.body {
-    /* background-color: rgb(14,14,16); */
+/* .body {
     width: 1080px;
     margin: 0px auto;
-    padding: 0px auto;
-    
-    
-}
+    padding: 0px auto;  
+} */
 
 #bootstrap-overrides :not(input) {
     color: white;
@@ -23,5 +20,46 @@ body,html {
 
 img {
     height: 5rem;
+}
+
+/* `````````````````````````` */
+
+/* .twitch .twitch-video {
+    padding-top: 56.25%;
+    position: relative;
+    height: 0;
+}
+
+.twitch .twitch-video iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+}
+
+.twitch .chat {
+    height: 400px;
+}
+
+.twitch .chat iframe {
+    width: 100%;
+    height: 100%;
+} */
+
+/* ````````````` */
+.twitch-video {
+    /* height: 0; */
+    /* position: relative;
+    overflow: hidden; */
+    padding: 0 0 48.6%;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.twitch-video iframe {
+    /* position: absolute; */
+    height: 1080px;
+    width: 100%;
 }
 

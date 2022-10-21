@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="h" %>
 <!-- For form submission and validations -->
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -20,12 +21,12 @@
 	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<c:url value='/js/favorite.js'/>" defer></script>
 	<script type="text/javascript" src="<c:url value='/js/comment.js'/>" defer></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">   
 
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">   
 	<title><c:out value="${channelData.get('display_name')} - Stream"/></title>
 </head>
 	<body>
-		<!-- <h:navbar name="test" /> -->
+		<h:navbar name="test" />
 		<div class="twitch d-flex">
 			<div class="twitch-video d-flex flex-column">
 				<iframe
@@ -46,13 +47,54 @@
 					<div class="form-group d-flex flex-column justify-content-center">
 						<h1>Comments</h1>
 						<div id="comment-section">
+							<div class="form-group comment-box">
+								<input type="text" name="" id="comment" class="form-control">
+								<button onClick="onClick(this)" value="${channelData.get('login')}" class="btn btn-dark">post</button>
+
+								<form:errors class="text-light" path="commentBody"></form:errors>
+							</div>
 							<c:forEach var="comment" items="${comments.getComments()}">
-								<h1 class="text-light"><c:out value="${comment.getCommentBody()}"/></h1>
+								<c:set var="commenter" value="${comment.getUser()}"/>
+								<div class="card p-3 bg-dark text-light m-3">
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="user d-flex flex-row align-items-center">
+										<!-- <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mr-2"> -->
+											<span>
+												<small class="font-weight-bold text-primary">
+													<a href="/profile/${commenter.getTwitchUserName()}" class="text-decoration-none fw-bold">
+														<c:out value="${commenter.getTwitchUserName()}"/>
+													</a>
+													<small class="text-secondary">
+														<h:dateDifference commentDate="${comment.getCreatedAt().time}"/>
+													</small>
+												</small>
+												<br>
+												<small class="font-weight-bold">
+													<c:out value="${comment.getCommentBody()}"/>
+												</small>
+											</span>
+
+											
+										</div>
+										<small>
+											<i class="dropdown bi bi-three-dots-vertical btn btn-primary">
+											</i>
+										</small>
+									</div>
+								<div class="action d-flex justify-content-between mt-2 align-items-center">
+									<div class="comment-options">
+										<span class="dots"></span>
+										<small>Reply</small>
+										<c:if test ="${userName.getId() == commenter.getId()}">
+											<a href="/channels/${channelData.get('login')}/comment/edit" class="text-decoration-none"><small class="text-success">Edit</small></a>		
+											<a href="/channels/${channelData.get('login')}/comment/delete" class="text-decoration-none"><small class="text-danger">Delete</small></a>
+										</c:if>
+									</div>
+								</div>
+							</div>
 							</c:forEach>
+							
 						</div>
-						<input type="text" name="" id="comment">
-						<button onClick="onClick(this)" value="${channelData.get('login')}">post</button>
-						<!-- TODO MAKE IT SO THE COMMENTER, DATE, AND TIME SHOW UP ON THE COMMENT AND MAKE IT LOOK NICE -->
 					</div>
 				</div>
 			</div>

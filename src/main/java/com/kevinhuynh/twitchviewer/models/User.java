@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -67,6 +68,9 @@ public class User {
 		inverseJoinColumns = @JoinColumn(name = "channel_id")
 	)
 	private List<Channel> channels;
+
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+	private List<Comment> comments;
 	
     @PrePersist
 	protected void onCreate() {
@@ -111,6 +115,15 @@ public class User {
 	public void setChannels(List<Channel> channels) {
 		this.channels = channels;
 	}
+
+	public List<Comment> comments() {
+		return comments;
+	}
+
+	public void setUserComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
 
 	public String getTwitchUserName() {
 		return twitchUserName;
@@ -160,4 +173,6 @@ public class User {
 	public void setConfirm(String confirm) {
 		this.confirm = confirm;
 	}
+
+	
 }

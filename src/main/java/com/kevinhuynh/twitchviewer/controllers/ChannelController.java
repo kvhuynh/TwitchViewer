@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kevinhuynh.twitchviewer.models.Channel;
 import com.kevinhuynh.twitchviewer.models.Comment;
+import com.kevinhuynh.twitchviewer.models.User;
 import com.kevinhuynh.twitchviewer.services.ApiService;
 import com.kevinhuynh.twitchviewer.services.ChannelService;
 import com.kevinhuynh.twitchviewer.services.CommentService;
@@ -41,7 +44,7 @@ public class ChannelController {
     private CommentService commentService;
 
     @GetMapping("/{channelName}")
-    public String viewChannel(@PathVariable("channelName") String channelName, Channel channel, Model model, HttpSession session) throws IOException {
+    public String viewChannel(@PathVariable("channelName") String channelName, Channel channel, User user, Model model, HttpSession session) throws IOException {
 
         try {
             if (session.getAttribute("uuid") != null) {
@@ -55,8 +58,6 @@ public class ChannelController {
                     // System.out.println(yo.get("type"));
     
                 }
-                System.out.println(channelName);
-                System.out.println(channelService.getOneByLogin(channelName));
             }
 
             JSONObject recieveChannelObject = apiService.queryWrapper("getId", channelName);
@@ -64,6 +65,7 @@ public class ChannelController {
             JSONObject channelData = (JSONObject) channelDataArray.get(0);
             
             model.addAttribute("channelData", channelData);
+            model.addAttribute("user", new User());
             model.addAttribute("comment", new Comment());
 
             Boolean createChannel = channelService.isInDatabase(channelData);
@@ -114,10 +116,11 @@ public class ChannelController {
     }
 
     @GetMapping("/{channelName}/comment")
-    public void commentChannel(@PathVariable("channelName") String channelName, @ModelAttribute("comment") Comment comment, @ModelAttribute("channel") Channel channel, BindingResult result, Model model, HttpSession session) {
+    public void commentChannel(@PathVariable("channelName") String channelName, @Valid @ModelAttribute("comment") Comment comment, @ModelAttribute("channel") Channel channel, BindingResult result, Model model, HttpSession session) {
         if (session.getAttribute("uuid") == null) {
             System.out.println("comment error");
         } else {
+
             Comment completedComment = commentService.constructComment(comment, userService.getOne((Long) session.getAttribute("uuid")));
             completedComment.setChannel(channelService.getOneByLogin(channelName));
             commentService.saveComment(completedComment);
@@ -125,14 +128,13 @@ public class ChannelController {
             Channel targetChannel = channelService.getOneByLogin(channelName); // get channel --> attach comment to the channel
             targetChannel.getComments().add(completedComment);
             channelService.saveChannel(targetChannel);
-
-
-            // model.addAttribute("userName", userService.getOne((Long) session.getAttribute("uuid")));
-
-            // targetChannel.getComments().add(comment);
-            // attach comment to the channel
         }
 
+    }
+    
+    @DeleteMapping("/{channelName}/comment/delete")
+    public void deleteComment() {
+        
     }
 
 }

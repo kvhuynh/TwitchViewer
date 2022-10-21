@@ -54,8 +54,8 @@ public class HomeController {
         ArrayList<Object> popularChannels = apiService.parsePopularChannels(recieveChannels);
         model.addAttribute("popularChannels", popularChannels);
         model.addAttribute("channel", channel);
-        System.out.println(session.getAttribute("uuid"));
-        System.out.println(session.getAttribute("invalidChannel"));
+        System.out.println("User session id: " + session.getAttribute("uuid"));
+        System.out.println("Invalid channel name if not null: " + session.getAttribute("invalidChannel"));
         return "index.jsp";
     }
 

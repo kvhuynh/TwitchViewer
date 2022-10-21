@@ -84,7 +84,6 @@ public class ApiService {
 			return obj;
 		} catch (IOException error) {
 			System.out.println(error);
-            System.out.println("sdfsdfsdfsdfdsf");
 		}
 
 		return null;

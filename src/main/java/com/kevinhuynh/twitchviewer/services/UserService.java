@@ -79,6 +79,8 @@ public class UserService {
 	}
 	
 	public User getOne(Long id) {
+		System.out.println("I AM HERE WOOOOOOO: " + id.getClass());
+
 		return userRepository.findById(id).orElse(null);
 	}
 

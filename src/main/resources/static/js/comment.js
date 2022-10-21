@@ -24,3 +24,17 @@ function onClick($this) {
   })
   console.log(val);
 }
+
+const deleteComment = ($this) => {
+  const commentId = $($this).data("value");
+  const channelName = $($this).data("channel");
+  $.ajax({
+    url: channelName + `/comment/${Number(commentId)}/delete`,
+    type: "DELETE",
+    complete: () => {
+      console.log("DELETING COMMENT COMPLETED");
+      $("#comment-section").load(`http://localhost:8080/channels/${channelName} #comment-section`);
+    }
+  })
+}
+

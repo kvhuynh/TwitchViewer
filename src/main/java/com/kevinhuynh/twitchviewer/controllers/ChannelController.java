@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kevinhuynh.twitchviewer.models.Channel;
@@ -132,8 +133,14 @@ public class ChannelController {
 
     }
     
-    @DeleteMapping("/{channelName}/comment/delete")
-    public void deleteComment() {
+    @DeleteMapping("/{channelName}/comment/{commentId}/delete")
+    public void deleteComment(@PathVariable("channelName") String channelName, @PathVariable("commentId") Long commentId) {
+        System.out.println("deleting comment in controller");
+        commentService.delete(commentId);
+    }
+
+    @PutMapping("/{channelName}/comment{commentId}/edit")
+    public void updateComment(@PathVariable("channelName") String channelName, @PathVariable("commentId") Long commentId) {
         
     }
 

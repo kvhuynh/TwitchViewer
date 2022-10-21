@@ -81,14 +81,19 @@
 											</i>
 										</small>
 									</div>
-								<div class="action d-flex justify-content-between mt-2 align-items-center">
-									<div class="comment-options">
-										<span class="dots"></span>
-										<small>Reply</small>
-										<c:if test ="${userName.getId() == commenter.getId()}">
-											<a href="/channels/${channelData.get('login')}/comment/edit" class="text-decoration-none"><small class="text-success">Edit</small></a>		
-											<a href="/channels/${channelData.get('login')}/comment/delete" class="text-decoration-none"><small class="text-danger">Delete</small></a>
-										</c:if>
+								<div class="action mt-2 align-items-center">
+									<div class="comment-actions d-flex justify-content-between align-items-center ">
+										<div class="comment-crud ">
+											<c:if test ="${userName.getId() == commenter.getId()}">
+												<a href="/channels/${channelData.get('login')}/comment/edit" class="text-decoration-none"><small class="text-success">Edit</small></a>
+												<a href="javascript:void(0)" id="deleteComment" onClick="deleteComment(this)" data-value="${comment.getId()}" data-channel="${channelData.get('login')}" class="text-decoration-none"><small class="text-danger">Delete</small></a>
+												<c:out value="${comment.getId()}"/>
+											</c:if>
+										</div>
+										<div class="likes-dislikes">
+											<i class="bi bi-hand-thumbs-up"></i>
+											<i class="bi bi-hand-thumbs-down"></i>
+										</div>
 									</div>
 								</div>
 							</div>

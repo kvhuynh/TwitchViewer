@@ -59,7 +59,19 @@ img {
 
 .twitch-video iframe {
     /* position: absolute; */
-    height: 1080px;
+    height: 800px;
     width: 100%;
 }
 
+body {
+    padding-top: 60px;
+  }
+
+
+.chat {
+    position: sticky;
+    height: calc(100vh - 55px);
+    top: 55px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}

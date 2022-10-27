@@ -139,9 +139,22 @@ public class ChannelController {
         commentService.delete(commentId);
     }
 
-    @PutMapping("/{channelName}/comment{commentId}/edit")
-    public void updateComment(@PathVariable("channelName") String channelName, @PathVariable("commentId") Long commentId) {
-        
+    @GetMapping("/{channelName}/comment/{commentId}/edit")
+    public void editComment(@PathVariable("channelName") String channelName, @PathVariable("commentId") Long commentId) {
+        System.out.println("tagging the comment to be edited to display text box");
+        Comment comment = commentService.getOne(commentId);
+        comment.setIsEditing(true);
+        commentService.saveComment((comment));
+    }
+
+    @PutMapping("/{channelName}/comment/{commentId}/edit/submit")
+    public void updateComment(@PathVariable("channelName") String channelName, @PathVariable("commentId") Long commentId, String commentBody) {
+        System.out.println("submitting edited comment in controller");
+        Comment comment = commentService.getOne(commentId);
+        comment.setCommentBody(commentBody);
+        comment.setIsEditing(false);
+        commentService.saveComment(comment);
+
     }
 
 }

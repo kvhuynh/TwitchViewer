@@ -1,15 +1,3 @@
-// $('#submit').click(function() {
-//     let button = document.getElementById("post-comment");
-//     $.ajax({
-//       url: button.value,
-//       type: "POST",
-//       complete: function(button) {
-//         console.log("COMPLETED");
-//         $("#comment-section").load(`${button.value} #comment-section`);
-//       }
-//     });
-//   });
-
 function onClick($this) {
   var val = $this.previousElementSibling.value;
   console.log($this.value);
@@ -36,5 +24,37 @@ const deleteComment = ($this) => {
       $("#comment-section").load(`http://localhost:8080/channels/${channelName} #comment-section`);
     }
   })
+}
+
+const editComment = ($this) => {
+  const commentId = $($this).data("value");
+  const channelName = $($this).data("channel");
+  $.ajax({
+    url: channelName + `/comment/${Number(commentId)}/edit`,
+    type: "GET",
+    complete: () => {
+      console.log("LOADING EDITING COMMENT BOX")
+      $("#comment-section").load(`http://localhost:8080/channels/${channelName} #comment-section`)
+    }
+  })
+}
+
+const submitEdit = ($this) => {
+  var val = $this.previousElementSibling.value;
+  console.log($this.value);
+  const commentId = $($this).data("value");
+  const channelName = $($this).data("channel");
+  console.log(commentId);
+  console.log(channelName);
+  $.ajax( {
+    url: channelName + `/comment/${Number(commentId)}/edit/submit`,
+    data: {commentBody: val},
+    type: "PUT",
+    complete: function() {
+      console.log("EDITING COMMENT COMPLETED");
+      $("#comment-section").load(`http://localhost:8080/channels/${channelName} #comment-section`);
+    }
+  })
+  console.log(val);
 }
 

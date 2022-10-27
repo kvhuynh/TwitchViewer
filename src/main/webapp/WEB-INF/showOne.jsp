@@ -22,9 +22,6 @@
 	<script type="text/javascript" src="<c:url value='/js/favorite.js'/>" defer></script>
 	<script type="text/javascript" src="<c:url value='/js/comment.js'/>" defer></script>
 	<script>
-  function resizeIframe(obj) {
-    obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
-  }
 </script>
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">   
@@ -36,7 +33,6 @@
 			<div class="twitch-video d-flex flex-column">
 				<iframe
 				src="https://player.twitch.tv/?channel=${channelData.get('login')}&parent=localhost&autoplay=true"
-
 				allowfullscreen>
 				</iframe>
 				<div class="page-body">
@@ -96,7 +92,11 @@
 									<div class="comment-actions d-flex justify-content-between align-items-center ">
 										<div class="comment-crud ">
 											<c:if test ="${userName.getId() == commenter.getId()}">
-												<a href="/channels/${channelData.get('login')}/comment/edit" class="text-decoration-none"><small class="text-success">Edit</small></a>
+												<c:if test="${comment.getIsEditing()}">
+												<input type="text" id="comment" class="form-control" value="${comment.getCommentBody()}" />
+												<button onClick="submitEdit(this)" value="${channelData.get('login')}" data-value="${comment.getId()}" data-channel="${channelData.get('login')}" class="btn btn-dark">post</button>
+												</c:if>
+												<a href="javascript:void(0)" id="editComment" onClick="editComment(this)" data-value="${comment.getId()}" data-channel="${channelData.get('login')}" class="text-decoration-none"><small class="text-success">Edit</small></a>
 												<a href="javascript:void(0)" id="deleteComment" onClick="deleteComment(this)" data-value="${comment.getId()}" data-channel="${channelData.get('login')}" class="text-decoration-none"><small class="text-danger">Delete</small></a>
 												<c:out value="${comment.getId()}"/>
 											</c:if>

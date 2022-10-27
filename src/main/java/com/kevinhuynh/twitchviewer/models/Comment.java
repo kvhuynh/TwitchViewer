@@ -30,6 +30,8 @@ public class Comment {
     @Size(min=1, max=255, message="Comment must be between 1 to 255 characters")
     private String commentBody;
 
+    private Boolean isEditing;
+
     private Integer likeCount;
 
     private Integer dislikeCount;
@@ -75,6 +77,14 @@ public class Comment {
 
     public void setCommentBody(String commentBody) {
         this.commentBody = commentBody;
+    }
+
+    public Boolean getIsEditing() {
+        return isEditing;
+    }
+
+    public void setIsEditing(Boolean isEditing) {
+        this.isEditing = isEditing;
     }
     
     public Integer getLikeCount() {
@@ -131,7 +141,5 @@ public class Comment {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    
+    }    
 }

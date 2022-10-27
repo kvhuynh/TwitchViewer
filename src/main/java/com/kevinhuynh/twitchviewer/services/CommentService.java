@@ -45,7 +45,6 @@ public class CommentService {
 
 	// user should be stored as their account id rather than their name since multiple people can have the same name
     public Comment constructComment(Comment comment, User user) {
-
         comment.setUser(user);
         return comment;
     }

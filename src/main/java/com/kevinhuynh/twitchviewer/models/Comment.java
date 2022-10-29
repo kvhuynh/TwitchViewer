@@ -1,6 +1,7 @@
 package com.kevinhuynh.twitchviewer.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -32,9 +34,10 @@ public class Comment {
 
     private Boolean isEditing;
 
-    private Integer likeCount;
+    // @OneToOne(mappedBy="user", fetch = FetchType.LAZY)
+    // private List<Like> likedBy;
 
-    private Integer dislikeCount;
+    // private List<Like> dislikedBy;
 
     private String imageUrl;
 
@@ -87,21 +90,21 @@ public class Comment {
         this.isEditing = isEditing;
     }
     
-    public Integer getLikeCount() {
-        return likeCount;
-    }
+    // public List<Like> getLikedBy() {
+    //     return likedBy;
+    // }
 
-    public void setLikeCount(Integer likeCount) {
-        this.likeCount = likeCount;
-    }
+    // public void setLikedBy(List<Like> likedBy) {
+    //     this.likedBy = likedBy;
+    // }
 
-    public Integer getDislikeCount() {
-        return dislikeCount;
-    }
+    // public List<Like> getDislikeCount() {
+    //     return dislikedBy;
+    // }
 
-    public void setDislikeCount(Integer dislikeCount) {
-        this.dislikeCount = dislikeCount;
-    }
+    // public void setDislikeCount(List<Like> dislikedBy) {
+    //     this.dislikedBy = dislikedBy;
+    // }
 
     public String getImageUrl() {
         return imageUrl;

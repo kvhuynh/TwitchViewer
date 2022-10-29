@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kevinhuynh.twitchviewer.models.Channel;
 import com.kevinhuynh.twitchviewer.models.Comment;
+import com.kevinhuynh.twitchviewer.models.Like;
 import com.kevinhuynh.twitchviewer.models.User;
 import com.kevinhuynh.twitchviewer.services.ApiService;
 import com.kevinhuynh.twitchviewer.services.ChannelService;
 import com.kevinhuynh.twitchviewer.services.CommentService;
+import com.kevinhuynh.twitchviewer.services.LikeService;
 import com.kevinhuynh.twitchviewer.services.UserService;
 
 @Controller
@@ -44,6 +46,10 @@ public class ChannelController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private LikeService likeService;
+
+    // channel
     @GetMapping("/{channelName}")
     public String viewChannel(@PathVariable("channelName") String channelName, Channel channel, User user, Model model, HttpSession session) throws IOException {
 
@@ -116,8 +122,10 @@ public class ChannelController {
         }
     }
 
-    @GetMapping("/{channelName}/comment")
-    public void commentChannel(@PathVariable("channelName") String channelName, @Valid @ModelAttribute("comment") Comment comment, @ModelAttribute("channel") Channel channel, BindingResult result, Model model, HttpSession session) {
+    // channel comments
+
+    @PostMapping("/{channelName}/comment")
+    public void commentChannel(@PathVariable("channelName") String channelName, @Valid @ModelAttribute("comment") Comment comment, BindingResult result, @ModelAttribute("channel") Channel channel, Model model, HttpSession session) {
         if (session.getAttribute("uuid") == null) {
             System.out.println("comment error");
         } else {
@@ -129,8 +137,10 @@ public class ChannelController {
             Channel targetChannel = channelService.getOneByLogin(channelName); // get channel --> attach comment to the channel
             targetChannel.getComments().add(completedComment);
             channelService.saveChannel(targetChannel);
+            if (result.hasErrors()) {
+                System.out.println("error in submitting comment");
+            }
         }
-
     }
     
     @DeleteMapping("/{channelName}/comment/{commentId}/delete")
@@ -154,8 +164,31 @@ public class ChannelController {
         comment.setCommentBody(commentBody);
         comment.setIsEditing(false);
         commentService.saveComment(comment);
-
     }
 
+    // channel comments likes
+    // @GetMapping("/{channelName}/comment/{commentId}/like")
+    // public Like likeComment(@PathVariable("channelName") String channelName, @PathVariable("commentId") Long commentId, HttpSession session) {
+    //     // first check if the user has already liked this comment
+    //     User currentUser = userService.getOne((Long) session.getAttribute("uuid"));
+    //     Comment currentComment = commentService.getOne(commentId);
+    //     List<Like> userLiked = currentComment.getLikedBy();
+    //     for (Like like : userLiked) {
+    //         if (like.getUser() == currentUser) {
+    //             userLiked.remove(like); // toggle like status
+    //             return null;
+
+    //         }
+    //     }
+
+    //     Like like = new Like();
+    //     like.setComment(commentService.getOne(commentId));  
+    //     likeService.saveLike(like);
+    //     currentUser.getLikes().add(like);
+    //     currentComment.getLikedBy().add(like);
+    //     System.out.println("number of likes for this comment is: " + currentComment.getLikedBy().size());
+
+    //     return like;
+    // }
 }
 

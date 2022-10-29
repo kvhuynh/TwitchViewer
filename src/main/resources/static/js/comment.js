@@ -4,7 +4,7 @@ function onClick($this) {
   $.ajax( {
     url: $this.value + "/comment",
     data: {commentBody: val},
-    type: "GET",
+    type: "POST",
     complete: function() {
       console.log("COMMENT COMPLETED");
       $("#comment-section").load(`http://localhost:8080/channels/${$this.value} #comment-section`);
@@ -56,5 +56,22 @@ const submitEdit = ($this) => {
     }
   })
   console.log(val);
+}
+
+const likeComment = ($this) => {
+  const commentId = $($this).data("value");
+  const channelName = $($this).data("channel");
+  $.ajax({
+    url: channelName + `/comment/${Number(commentId)}/like`,
+    type: "GET",
+    complete: () => {
+      console.log("LIKING COMMENT")
+      $("#comment-section").load(`http://localhost:8080/channels/${channelName} #comment-section`)
+    }
+  })
+}
+
+const dislikeComment = ($this) => {
+  console.log("disliking this comment");
 }
 

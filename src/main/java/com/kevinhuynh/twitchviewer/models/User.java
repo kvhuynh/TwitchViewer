@@ -57,10 +57,8 @@ public class User {
 	@Transient
     @NotEmpty(message="Please confirm password")
     private String confirm;
-	
-	// @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-	// private List<Channel> channels;
 
+	// user can have many favorites and a channel can be favorited by many users
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 		name = "users_channels",
@@ -72,6 +70,9 @@ public class User {
 	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
 	private List<Comment> comments;
 	
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+	private List<Like> likes;
+
     @PrePersist
 	protected void onCreate() {
 		this.createdAt = new Date();
@@ -124,6 +125,21 @@ public class User {
 		this.comments = comments;
 	}
 
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public List<Like> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<Like> likes) {
+		this.likes = likes;
+	}
 
 	public String getTwitchUserName() {
 		return twitchUserName;

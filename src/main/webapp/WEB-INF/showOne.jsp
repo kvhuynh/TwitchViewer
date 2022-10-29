@@ -58,7 +58,7 @@
 										</a>
 									</c:otherwise>
 								</c:choose>
-								<%-- <form:errors class="text-light" path="commentBody"></form:errors> --%>
+
 							</div>
 							<c:forEach var="comment" items="${comments.getComments()}">
 								<c:set var="commenter" value="${comment.getUser()}"/>
@@ -102,8 +102,9 @@
 											</c:if>
 										</div>
 										<div class="likes-dislikes">
-											<i class="bi bi-hand-thumbs-up"></i>
-											<i class="bi bi-hand-thumbs-down"></i>
+											
+											<i class="bi bi-hand-thumbs-up" onclick="likeComment(this)"></i>
+											<i class="bi bi-hand-thumbs-down" onclick="dislikeComment(this)"></i>
 										</div>
 									</div>
 								</div>

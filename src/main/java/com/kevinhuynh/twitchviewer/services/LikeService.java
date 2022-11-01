@@ -16,8 +16,12 @@ public class LikeService {
     }
 
     public Like getOne(Long id) {
-		return likeRepository.findById(id).orElse(null);
+		  return likeRepository.findById(id).orElse(null);
 
+    }
+
+    public void deleteLike(Like like) {
+      likeRepository.delete(like);
     }
     
 }

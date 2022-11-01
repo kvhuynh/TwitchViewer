@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -34,8 +34,10 @@ public class Comment {
 
     private Boolean isEditing;
 
-    // @OneToOne(mappedBy="user", fetch = FetchType.LAZY)
-    // private List<Like> likedBy;
+
+    // each comment has a list of likes ---> each like has a map to a user ---> each user has a list of likes
+    @OneToMany(mappedBy="comment")
+    private List<Like> likedBy;
 
     // private List<Like> dislikedBy;
 
@@ -90,13 +92,13 @@ public class Comment {
         this.isEditing = isEditing;
     }
     
-    // public List<Like> getLikedBy() {
-    //     return likedBy;
-    // }
+    public List<Like> getLikedBy() {
+        return likedBy;
+    }
 
-    // public void setLikedBy(List<Like> likedBy) {
-    //     this.likedBy = likedBy;
-    // }
+    public void setLikedBy(List<Like> likedBy) {
+        this.likedBy = likedBy;
+    }
 
     // public List<Like> getDislikeCount() {
     //     return dislikedBy;

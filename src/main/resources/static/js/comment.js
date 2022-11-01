@@ -67,6 +67,7 @@ const likeComment = ($this) => {
     complete: () => {
       console.log("LIKING COMMENT")
       $("#comment-section").load(`http://localhost:8080/channels/${channelName} #comment-section`)
+      console.log(channelName + `/comment/${Number(commentId)}/like`);
     }
   })
 }
@@ -74,4 +75,5 @@ const likeComment = ($this) => {
 const dislikeComment = ($this) => {
   console.log("disliking this comment");
 }
+
 

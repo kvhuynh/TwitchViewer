@@ -83,6 +83,9 @@ public class ChannelController {
             } else {
                 System.out.println("channel is already in database");
                 // model.addAttribute("comments", channelService.getOneByLogin(channelName).getComments()); 
+                for (Comment comment : channelService.getOneByLogin(channelName).getComments()) {
+                    // comment.setIsEditing(false);
+                }
                 model.addAttribute("comments", channelService.getOneByLogin(channelName)); 
 
             }
@@ -167,28 +170,34 @@ public class ChannelController {
     }
 
     // channel comments likes
-    // @GetMapping("/{channelName}/comment/{commentId}/like")
-    // public Like likeComment(@PathVariable("channelName") String channelName, @PathVariable("commentId") Long commentId, HttpSession session) {
-    //     // first check if the user has already liked this comment
-    //     User currentUser = userService.getOne((Long) session.getAttribute("uuid"));
-    //     Comment currentComment = commentService.getOne(commentId);
-    //     List<Like> userLiked = currentComment.getLikedBy();
-    //     for (Like like : userLiked) {
-    //         if (like.getUser() == currentUser) {
-    //             userLiked.remove(like); // toggle like status
-    //             return null;
+    @GetMapping("/{channelName}/comment/{commentId}/like")
+    public Like likeComment(@PathVariable("channelName") String channelName, @PathVariable("commentId") Long commentId, HttpSession session) {
+        // first check if the user has already liked this comment
+        User currentUser = userService.getOne((Long) session.getAttribute("uuid"));
+        Comment currentComment = commentService.getOne(commentId);
+        List<Like> userLiked = currentComment.getLikedBy();
+        
+        for (Like like : userLiked) {
+            System.out.println(like.getUser());
+            if (like.getUser() == currentUser) {
+                System.out.println("number of likes for this user is (before deletion): " + userLiked);
+                userLiked.remove(like);
+                likeService.deleteLike(like);
+                System.out.println("number of likes for this comment is: " + currentComment.getLikedBy().size());
+                System.out.println("number of likes for this user is (after deletion): " + userLiked);
+                return null;
 
-    //         }
-    //     }
+            }
+        }
 
-    //     Like like = new Like();
-    //     like.setComment(commentService.getOne(commentId));  
-    //     likeService.saveLike(like);
-    //     currentUser.getLikes().add(like);
-    //     currentComment.getLikedBy().add(like);
-    //     System.out.println("number of likes for this comment is: " + currentComment.getLikedBy().size());
-
-    //     return like;
-    // }
+        Like like = new Like(); // create new like
+        like.setComment(commentService.getOne(commentId));  // set the new like to the comment
+        like.setUser(currentUser);
+        likeService.saveLike(like); // save the new like
+        currentUser.getLikes().add(like); // add the new like to the users list of likes
+        currentComment.getLikedBy().add(like); // add the new like to comments list of likes
+        System.out.println("number of likes for this comment is: " + currentComment.getLikedBy().size());
+        return like;
+    }
 }
 

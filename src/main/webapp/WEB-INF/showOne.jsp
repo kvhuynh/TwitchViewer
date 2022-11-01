@@ -92,18 +92,22 @@
 									<div class="comment-actions d-flex justify-content-between align-items-center ">
 										<div class="comment-crud ">
 											<c:if test ="${userName.getId() == commenter.getId()}">
-												<c:if test="${comment.getIsEditing()}">
-												<input type="text" id="comment" class="form-control" value="${comment.getCommentBody()}" />
-												<button onClick="submitEdit(this)" value="${channelData.get('login')}" data-value="${comment.getId()}" data-channel="${channelData.get('login')}" class="btn btn-dark">post</button>
-												</c:if>
-												<a href="javascript:void(0)" id="editComment" onClick="editComment(this)" data-value="${comment.getId()}" data-channel="${channelData.get('login')}" class="text-decoration-none"><small class="text-success">Edit</small></a>
+												<c:choose>
+													<c:when test="${comment.getIsEditing()}">
+														<input type="text" id="comment" class="form-control" value="${comment.getCommentBody()}" />
+														<button onClick="submitEdit(this)" value="${channelData.get('login')}" data-value="${comment.getId()}" data-channel="${channelData.get('login')}" class="btn btn-dark">post</button>
+													</c:when>
+													<c:otherwise>
+														<a href="javascript:void(0)" id="editComment" onClick="editComment(this)" data-value="${comment.getId()}" data-channel="${channelData.get('login')}" class="text-decoration-none"><small class="text-success">Edit</small></a>
+													</c:otherwise>
+												</c:choose>
 												<a href="javascript:void(0)" id="deleteComment" onClick="deleteComment(this)" data-value="${comment.getId()}" data-channel="${channelData.get('login')}" class="text-decoration-none"><small class="text-danger">Delete</small></a>
 												<c:out value="${comment.getId()}"/>
 											</c:if>
 										</div>
 										<div class="likes-dislikes">
-											
-											<i class="bi bi-hand-thumbs-up" onclick="likeComment(this)"></i>
+											<i class="bi bi-hand-thumbs-up" onclick="likeComment(this)" data-value="${comment.getId()}" data-channel="${channelData.get('login')}"></i>
+											<c:out value="${comment.getLikedBy().size()}"/>
 											<i class="bi bi-hand-thumbs-down" onclick="dislikeComment(this)"></i>
 										</div>
 									</div>

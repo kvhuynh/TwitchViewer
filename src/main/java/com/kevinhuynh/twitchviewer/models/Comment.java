@@ -3,6 +3,7 @@ package com.kevinhuynh.twitchviewer.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,10 +37,12 @@ public class Comment {
 
 
     // each comment has a list of likes ---> each like has a map to a user ---> each user has a list of likes
-    @OneToMany(mappedBy="comment")
+    @OneToMany(mappedBy="comment", cascade = CascadeType.ALL)
     private List<Like> likedBy;
 
     // private List<Like> dislikedBy;
+    @OneToMany(mappedBy="comment")
+    private List<Dislike> dislikedBy;
 
     private String imageUrl;
 
@@ -100,13 +103,13 @@ public class Comment {
         this.likedBy = likedBy;
     }
 
-    // public List<Like> getDislikeCount() {
-    //     return dislikedBy;
-    // }
+    public List<Dislike> getDislikedBy() {
+        return dislikedBy;
+    }
 
-    // public void setDislikeCount(List<Like> dislikedBy) {
-    //     this.dislikedBy = dislikedBy;
-    // }
+    public void setDislikeCount(List<Dislike> dislikedBy) {
+        this.dislikedBy = dislikedBy;
+    }
 
     public String getImageUrl() {
         return imageUrl;

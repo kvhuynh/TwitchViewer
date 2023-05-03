@@ -23,12 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kevinhuynh.twitchviewer.models.Channel;
 import com.kevinhuynh.twitchviewer.models.Comment;
+import com.kevinhuynh.twitchviewer.models.Dislike;
 import com.kevinhuynh.twitchviewer.models.Like;
 import com.kevinhuynh.twitchviewer.models.User;
 import com.kevinhuynh.twitchviewer.services.ApiService;
 import com.kevinhuynh.twitchviewer.services.ChannelService;
 import com.kevinhuynh.twitchviewer.services.CommentService;
-import com.kevinhuynh.twitchviewer.services.LikeService;
+import com.kevinhuynh.twitchviewer.services.SentimentService;
 import com.kevinhuynh.twitchviewer.services.UserService;
 
 @Controller
@@ -47,7 +48,7 @@ public class ChannelController {
     private CommentService commentService;
 
     @Autowired
-    private LikeService likeService;
+    private SentimentService sentimentService;
 
     // channel
     @GetMapping("/{channelName}")
@@ -182,7 +183,7 @@ public class ChannelController {
             if (like.getUser() == currentUser) {
                 System.out.println("number of likes for this user is (before deletion): " + userLiked);
                 userLiked.remove(like);
-                likeService.deleteLike(like);
+                sentimentService.deleteLike(like);
                 System.out.println("number of likes for this comment is: " + currentComment.getLikedBy().size());
                 System.out.println("number of likes for this user is (after deletion): " + userLiked);
                 return null;
@@ -193,11 +194,38 @@ public class ChannelController {
         Like like = new Like(); // create new like
         like.setComment(commentService.getOne(commentId));  // set the new like to the comment
         like.setUser(currentUser);
-        likeService.saveLike(like); // save the new like
+        sentimentService.saveLike(like); // save the new like
         currentUser.getLikes().add(like); // add the new like to the users list of likes
         currentComment.getLikedBy().add(like); // add the new like to comments list of likes
         System.out.println("number of likes for this comment is: " + currentComment.getLikedBy().size());
         return like;
     }
-}
 
+    @GetMapping("/{channelName}/comment/{commentId}/dislike")
+    public Dislike dislikeComment(@PathVariable("channelName") String channelName, @PathVariable("commentId") Long commentId, HttpSession session) {
+        User currentUser = userService.getOne((Long) session.getAttribute("uuid"));
+        Comment currentComment = commentService.getOne(commentId);
+        List<Dislike> userDisliked = currentComment.getDislikedBy();
+        
+        for (Dislike dislike : userDisliked) {
+            System.out.println(dislike.getUser());
+            if (dislike.getUser() == currentUser) {
+                System.out.println("number of likes for this user is (before deletion): " + userDisliked);
+                userDisliked.remove(dislike);
+                sentimentService.deleteDislike(dislike);
+                System.out.println("number of likes for this comment is: " + currentComment.getDislikedBy().size());
+                System.out.println("number of likes for this user is (after deletion): " + userDisliked);
+                return null;
+            }
+        }
+
+        Dislike dislike = new Dislike(); // create new dislike
+        dislike.setComment(commentService.getOne(commentId));  // set the new dislike to the comment
+        dislike.setUser(currentUser);
+        sentimentService.saveDislike(dislike); // save the new dislike
+        currentUser.getDislikes().add(dislike); // add the new dislike to the users list of likes
+        currentComment.getDislikedBy().add(dislike); // add the new dislike to comments list of likes
+        System.out.println("number of likes for this comment is: " + currentComment.getDislikedBy().size());
+        return dislike;
+    } 
+}

@@ -73,6 +73,9 @@ public class User {
 	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
 	private List<Like> likes;
 
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+	private List<Dislike> dislikes;
+
     @PrePersist
 	protected void onCreate() {
 		this.createdAt = new Date();
@@ -141,6 +144,14 @@ public class User {
 		this.likes = likes;
 	}
 
+	public List<Dislike> getDislikes() {
+		return dislikes;
+	}
+
+	public void setDislikes(List<Dislike> dislikes) {
+		this.dislikes = dislikes;
+	}
+
 	public String getTwitchUserName() {
 		return twitchUserName;
 	}
@@ -188,7 +199,5 @@ public class User {
 
 	public void setConfirm(String confirm) {
 		this.confirm = confirm;
-	}
-
-	
+	}	
 }

@@ -58,22 +58,32 @@ const submitEdit = ($this) => {
   console.log(val);
 }
 
-const likeComment = ($this) => {
+// const likeComment = ($this) => {
+//   const commentId = $($this).data("value");
+//   const channelName = $($this).data("channel");
+//   $.ajax({
+//     url: channelName + `/comment/${Number(commentId)}/like`,
+//     type: "GET",
+//     complete: () => {
+//       console.log("LIKING COMMENT")
+//       $("#comment-section").load(`http://localhost:8080/channels/${channelName} #comment-section`)
+//       console.log(channelName + `/comment/${Number(commentId)}/like`);
+//     }
+//   })
+// }
+
+const commentSentiment = ($this) => {
   const commentId = $($this).data("value");
   const channelName = $($this).data("channel");
+  const sentiment = $($this).data("sentiment");
   $.ajax({
-    url: channelName + `/comment/${Number(commentId)}/like`,
+    url: channelName + `/comment/${Number(commentId)}/${sentiment}`,
     type: "GET",
     complete: () => {
-      console.log("LIKING COMMENT")
+      console.log("SENTIMENT COMPLETE")
       $("#comment-section").load(`http://localhost:8080/channels/${channelName} #comment-section`)
-      console.log(channelName + `/comment/${Number(commentId)}/like`);
     }
-  })
-}
-
-const dislikeComment = ($this) => {
-  console.log("disliking this comment");
+  });
 }
 
 

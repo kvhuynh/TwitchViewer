@@ -106,9 +106,20 @@
 											</c:if>
 										</div>
 										<div class="likes-dislikes">
-											<i class="bi bi-hand-thumbs-up" onclick="likeComment(this)" data-value="${comment.getId()}" data-channel="${channelData.get('login')}"></i>
+											<%-- <c:out value="${userName.getLikes().contains(comment)}"/> --%>
+											<c:set var="userComment" value="${comment.getLikedBy()}"/>
+											<c:forEach var="commenter" items="${userComment}">
+												<c:out value="${commenter.getUser().getId()}"/>
+											</c:forEach>
+											<%-- <c:out value="${userName.getLikes()}"/> --%>
+											<c:if test="${userName.getLikes().contains(comment)}">
+												<i class="bi bi-hand-thumbs-up-filled" onclick="commentSentiment(this)" data-value="${comment.getId()}" data-channel="${channelData.get('login')}" data-sentiment="like"></i>
+											</c:if>
+											<i class="bi bi-hand-thumbs-up" onclick="commentSentiment(this)" data-value="${comment.getId()}" data-channel="${channelData.get('login')}" data-sentiment="like"></i>
 											<c:out value="${comment.getLikedBy().size()}"/>
-											<i class="bi bi-hand-thumbs-down" onclick="dislikeComment(this)"></i>
+											<i class="bi bi-hand-thumbs-down" onclick="commentSentiment(this)" data-value="${comment.getId()}" data-channel="${channelData.get('login')}" data-sentiment="dislike"></i>
+											<c:out value="${comment.getDislikedBy().size()}"/>
+											
 										</div>
 									</div>
 								</div>
